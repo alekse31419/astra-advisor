@@ -110,6 +110,10 @@ Consider expected total usage, not only the first attempt: likely retries, escal
 
 A stronger model may therefore be more economical when a cheaper model is likely to fail or require substantial rework.
 
+Delegate when it is expected to reduce total subscription usage or improve reliability.
+The parent may implement directly when delegation overhead would outweigh its benefit.
+Avoid duplicating the same implementation between parent and subagents.
+
 Never route below the capability required for safe and reliable completion.
 
 If no Budget is specified, use `normal`.
