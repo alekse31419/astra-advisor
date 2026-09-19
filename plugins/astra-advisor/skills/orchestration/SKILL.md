@@ -97,7 +97,7 @@ fixture is optional and must remain separate from this task's receipt.
 
 The user may specify one budget mode per task:
 
-- `Budget: economy` — minimize subscription usage. Prefer the cheapest capable Pareto-efficient route.
+- `Budget: economy` — minimize subscription usage. Prefer the cheapest capable Pareto-efficient route. Max model: gpt-5.6-luna max.
 - `Budget: normal` — balance reliability and usage near the Pareto knee. This is the default.
 - `Budget: quality` — favor stronger models/efforts when they meaningfully reduce failure, rework, or review risk.
 - `Budget: max` — prioritize reliability and capability, while still avoiding obviously wasteful routing.
