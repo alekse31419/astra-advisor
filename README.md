@@ -28,16 +28,16 @@ Install the plugin in a current Codex CLI or ChatGPT desktop app with plugins
 enabled. Start a fresh task after installation and select GPT-6 Astra at any effort
 supported by the current Codex host:
 
-~~~sh
+```sh
 codex plugin marketplace add DannyMac180/astra-advisor --ref main
 codex plugin add astra-advisor@astra-advisor
-~~~
+```
 
 Start a task with:
 
-~~~text
+```text
 Use $astra-advisor:orchestration to plan, build, verify, and review this work.
-~~~
+```
 
 ## How routing works
 
@@ -56,11 +56,11 @@ runs.
 
 Live tool metadata is authoritative. The current documented effort snapshot is:
 
-| Model | Known efforts |
-| --- | --- |
-| `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
+| Model           | Known efforts                                    |
+| --------------- | ------------------------------------------------ |
+| `gpt-5.6-sol`   | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
+| `gpt-5.6-luna`  | `low`, `medium`, `high`, `xhigh`, `max`          |
 
 If a selected model, effort, control, or tool is unavailable, conflicting, or
 unobservable, Astra fails that delegation closed and reports the limitation. It does
@@ -102,10 +102,10 @@ implementation support boundary, not a claimed official pricing threshold.
 
 Try the clearly labeled illustrative workload (not a receipt for your task):
 
-~~~sh
+```sh
 python3 plugins/astra-advisor/scripts/cost_receipt.py plugins/astra-advisor/examples/illustrative-usage.json
 sh plugins/astra-advisor/scripts/verify.sh
-~~~
+```
 
 The calculator emits JSON and accepts `--pricing PATH` for another verified snapshot.
 Its input lists agents and unique atomic calls, usage provenance, coverage assertions,
@@ -125,18 +125,18 @@ invented tool as a workaround.
 
 ## Updating
 
-~~~sh
+```sh
 codex plugin marketplace upgrade astra-advisor
 codex plugin add astra-advisor@astra-advisor
-~~~
+```
 
 For local development, install this checkout as a marketplace:
 
-~~~sh
+```sh
 cd /absolute/path/to/astra-advisor
 codex plugin marketplace add /absolute/path/to/astra-advisor
 codex plugin add astra-advisor@astra-advisor
-~~~
+```
 
 For operational details, read
 [the orchestration operations reference](plugins/astra-advisor/skills/orchestration/references/operations.md).
