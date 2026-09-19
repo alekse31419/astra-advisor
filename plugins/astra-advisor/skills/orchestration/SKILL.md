@@ -1,27 +1,23 @@
 ---
 name: orchestration
-description: "Plan, route, implement, verify, and review substantial work with GPT-6 Astra and dynamically selected native Codex subagents."
+description: 'Plan, route, implement, verify, and review substantial work with GPT-6 Astra and dynamically selected native Codex subagents.'
 ---
 
 # Astra Advisor Orchestration
 
-Act as the architect and acceptance owner. Keep the primary session on GPT-6 Astra
-at the effort selected by the user. Astra owns intent, architecture, decomposition,
-delegation decisions, parent verification, and acceptance. A skill cannot change the
-parent model or effort, and must honor the invocation's effort. If observable runtime
-metadata says the parent model is not `gpt-6-astra`, report the mismatch as a
-selection prerequisite and do not claim Astra orchestration. If the model or effort
-is unobservable, disclose that fact rather than inventing confirmation.
+Act as the architect and acceptance owner. A skill cannot change the
+parent model or effort, and must honor the invocation's effort.
 
 After capability preflight and before the first implementation or delegation task
 call, emit a short, machine-auditable declaration:
 
-~~~text
+```text
 ASTRA ROUTE
+budget: <economy | normal | quality | max>
 parent: <observed model or unobservable> / <observed effort or unobservable>
 delegation: <none or the selected native subagent models and efforts>
 risk: <concise, task-specific rationale>
-~~~
+```
 
 Report model and effort as observed evidence. If metadata does not expose a value,
 say that it is unobservable; never claim a runtime pin that was not confirmed. Read
@@ -48,13 +44,13 @@ requested checks before starting a fresh read-only review. The reviewer may be a
 the three supported subagent models, selected dynamically with explicit model and
 effort controls. Give it the actual change set and evidence, and require:
 
-~~~text
+```text
 ASTRA REVIEW
 VERDICT: ship | fix-first | rethink
 REASON: <evidence-based reason>
 FINDINGS: <precise findings or none>
 RESIDUAL RISK: <remaining risk or none>
-~~~
+```
 
 Accept a substantial implementation only after the fresh reviewer returns `ship`.
 After `fix-first`, the parent applies the correction, verifies again, and obtains a
@@ -96,3 +92,24 @@ subagents there are no delegation savings. Effort is metadata, not a price multi
 Use the versioned snapshot and disclose its date and promotional Sol pricing. Reject
 unsupported pricing regimes rather than silently using standard rates. An illustrative
 fixture is optional and must remain separate from this task's receipt.
+
+## Budget-aware routing
+
+The user may specify one budget mode per task:
+
+- `Budget: economy` — minimize subscription usage. Prefer the cheapest capable Pareto-efficient route.
+- `Budget: normal` — balance reliability and usage near the Pareto knee. This is the default.
+- `Budget: quality` — favor stronger models/efforts when they meaningfully reduce failure, rework, or review risk.
+- `Budget: max` — prioritize reliability and capability, while still avoiding obviously wasteful routing.
+
+Budget is a routing preference, not a fixed model mapping.
+
+For every delegated task, first determine the minimum capability required, then choose model and reasoning effort dynamically according to the selected budget.
+
+Consider expected total usage, not only the first attempt: likely retries, escalation, repeated context, verification, and review also count.
+
+A stronger model may therefore be more economical when a cheaper model is likely to fail or require substantial rework.
+
+Never route below the capability required for safe and reliable completion.
+
+If no Budget is specified, use `normal`.

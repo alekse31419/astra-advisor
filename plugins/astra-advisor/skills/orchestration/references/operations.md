@@ -6,23 +6,19 @@ roles, role files, task lanes, or an installer.
 
 ## Parent session
 
-The primary session is GPT-6 Astra at whatever supported effort the user selected.
+The primary session is GPT model at whatever supported effort the user selected.
 The invocation is authoritative. Do not require a particular effort, rewrite the
-parent configuration, or claim a model/effort pin without runtime evidence. If the
-session exposes model and effort metadata and the model is not `gpt-6-astra`, report
-that mismatch as a selection prerequisite and do not claim Astra orchestration. If
-metadata does not expose the model or effort, report the value as unobservable and
-continue within the user's request without inventing confirmation.
+parent configuration, or claim a model/effort pin without runtime evidence.
 
 After capability preflight and before the first implementation or delegation task
 call, record the selected plan:
 
-~~~text
+```text
 ASTRA ROUTE
 parent: <observed model or unobservable> / <observed effort or unobservable>
 delegation: <none or each selected model and effort>
 risk: <concise, task-specific rationale>
-~~~
+```
 
 The declaration is a record of the current decision, not a fixed set of workflow
 lanes. Update it only when new evidence changes the plan, and explain that evidence.
@@ -31,20 +27,23 @@ lanes. Update it only when new evidence changes the plan, and explain that evide
 
 Use the generic `collaboration.spawn_agent` only if the current environment exposes
 that tool and its schema. Select a model and effort for each concrete, bounded,
-independent deliverable from the task's risk, context, and available work. Pass the
-chosen values explicitly:
+independent deliverable from the task's risk, context, available work, and current
+Budget mode. Treat Budget as a bias over the Pareto-efficient routing options, not
+as a fixed model mapping. Account for likely retry, escalation, verification, and
+review cost. Never choose a route below the capability required by the task.
+Pass the chosen values explicitly:
 
-~~~text
+```text
 model: <selected supported model>
 reasoning_effort: <selected supported effort>
 fork_turns: none
-~~~
+```
 
 Include a task name and a message that states the bounded ownership and expected
 return. For example, this is one illustrative request shape; the model and effort
 must be selected afresh for the actual task:
 
-~~~json
+```json
 {
   "task_name": "inspect_auth_boundary",
   "message": "Inspect the auth boundary in the owned files. Return findings, exact file references, and the checks you ran; do not edit outside that boundary.",
@@ -52,7 +51,7 @@ must be selected afresh for the actual task:
   "reasoning_effort": "max",
   "fork_turns": "none"
 }
-~~~
+```
 
 The example does not prescribe a model, effort, task name, or number of subagents.
 Use the current tool schema for any additional required fields and reject a request
@@ -68,11 +67,11 @@ subagent's actual result and evidence to the parent.
 The following is the known capability snapshot for routing. It is guidance for a
 selection, not a contract that overrides live tool metadata:
 
-| Model | Efforts known in the current snapshot |
-| --- | --- |
-| `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
+| Model           | Efforts known in the current snapshot            |
+| --------------- | ------------------------------------------------ |
+| `gpt-5.6-sol`   | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
+| `gpt-5.6-luna`  | `low`, `medium`, `high`, `xhigh`, `max`          |
 
 Inspect the current tool metadata when selecting and invoking a subagent. A changed
 live capability list wins over this snapshot. If the selected model, effort, explicit
@@ -92,13 +91,13 @@ new context. The reviewer can be `gpt-5.6-sol`, `gpt-5.6-terra`, or `gpt-5.6-lun
 with an effort supported by live metadata, and must receive the exact change set,
 interfaces, constraints, and verification evidence. Ask it to return:
 
-~~~text
+```text
 ASTRA REVIEW
 VERDICT: ship | fix-first | rethink
 REASON: <evidence-based reason>
 FINDINGS: <precise findings or none>
 RESIDUAL RISK: <remaining risk or none>
-~~~
+```
 
 Treat `ship` as the only accepting verdict for substantial implementation. On
 `fix-first`, the parent makes the correction, reruns verification, and obtains a new
@@ -134,7 +133,7 @@ diff inspection and requested checks; a subagent's assertion alone is insufficie
 Emit these updates in the user's conversation, not only in an internal log. They
 apply to each implementer and each fresh reviewer, including failed dispatches:
 
-~~~text
+```text
 ASTRA DELEGATE <name>
 task: <bounded deliverable and owned files>
 requested: <model> / <effort>
@@ -145,7 +144,7 @@ status: <completed, failed, interrupted, or blocked; actual evidence>
 requested: <model> / <effort>
 observed: <model or unobservable> / <effort or unobservable>
 evidence: <runtime metadata source or unavailable>
-~~~
+```
 
 Do not equate a successful dispatch with completed work. Keep a record of agent IDs,
 requested settings, runtime observations, result evidence, and any usage source.
@@ -179,7 +178,7 @@ snapshot, not a live-price guarantee; Sol rates are promotional. Disclose the sn
 date and freshness when showing an estimate. Use a newly verified versioned snapshot
 if current prices are required. Do not silently change historical receipts.
 
-~~~text
+```text
 API-EQUIVALENT COST RECEIPT
 usage: <observed source and cutoff, partial, or unavailable with reason>
 scope: <whole task only if complete; delegated-only or observed subset otherwise>
@@ -189,7 +188,7 @@ same-token Astra repricing: <USD or unavailable>
 same-token API price difference: <USD and percentage where valid, or unavailable>
 limits: This is not a measured all-Astra counterfactual, actual net task savings,
         or a change in ChatGPT subscription charges or usage credits.
-~~~
+```
 
 When no subagents ran, state `no delegation savings`. When no usage is exposed,
 state `unavailable: native tools did not expose observed token usage`; never show
