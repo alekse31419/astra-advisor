@@ -72,7 +72,7 @@ def whole_task() -> dict:
             atomic_call(
                 "d1",
                 "d",
-                "gpt-5.6-luna",
+                "gpt-6-luna",
                 input_tokens=2000,
                 cached_input_tokens=500,
                 output_tokens=300,
@@ -81,7 +81,7 @@ def whole_task() -> dict:
             atomic_call(
                 "r1",
                 "r",
-                "gpt-5.6-sol",
+                "gpt-6-sol",
                 input_tokens=1000,
                 cached_input_tokens=0,
                 output_tokens=100,
@@ -201,13 +201,13 @@ class CostReceiptTests(unittest.TestCase):
         snapshot = json.loads(PRICING.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "pricing.json"
-            del snapshot["models"]["gpt-5.6-luna"]["output"]
+            del snapshot["models"]["gpt-6-luna"]["output"]
             path.write_text(json.dumps(snapshot), encoding="utf-8")
             result = cost_receipt.calculate_receipt(whole_task(), path)
             self.assertEqual(result["calls"][1]["status"], "unavailable")
             self.assertIn("missing output rate", result["calls"][1]["reason"])
 
-            snapshot["models"]["gpt-5.6-luna"]["output"] = "not-a-rate"
+            snapshot["models"]["gpt-6-luna"]["output"] = "not-a-rate"
             path.write_text(json.dumps(snapshot), encoding="utf-8")
             with self.assertRaisesRegex(cost_receipt.ReceiptError, "valid decimal"):
                 cost_receipt.calculate_receipt(whole_task(), path)

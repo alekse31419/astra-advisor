@@ -26,7 +26,7 @@ say that it is unobservable; never claim a runtime pin that was not confirmed. R
 Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
 current tool schema. Each selected subagent must receive an explicit `model`, an
 explicit supported `reasoning_effort`, and `fork_turns: none`. Choose dynamically
-among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
+among `gpt-6-luna xhigh-max`, and `gpt-6-sol high-max` from the task's risk,
 context, and independent work available; do not encode a role-to-model mapping or a
 fixed number of subagents. Give every subagent a concrete, bounded, independent
 deliverable while Astra continues useful parent work. Do not duplicate the parent's
@@ -97,7 +97,7 @@ fixture is optional and must remain separate from this task's receipt.
 
 The user may specify one budget mode per task:
 
-- `Budget: economy` — minimize subscription usage. Prefer the cheapest capable Pareto-efficient route. Max model: gpt-5.6-luna max.
+- `Budget: economy` — minimize subscription usage. Prefer the cheapest capable Pareto-efficient route. Max model: gpt-6-luna max.
 - `Budget: normal` — balance reliability and usage near the Pareto knee. This is the default.
 - `Budget: quality` — favor stronger models/efforts when they meaningfully reduce failure, rework, or review risk.
 - `Budget: max` — prioritize reliability and capability, while still avoiding obviously wasteful routing.

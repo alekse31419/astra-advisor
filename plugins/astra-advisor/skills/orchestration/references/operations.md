@@ -47,7 +47,7 @@ must be selected afresh for the actual task:
 {
   "task_name": "inspect_auth_boundary",
   "message": "Inspect the auth boundary in the owned files. Return findings, exact file references, and the checks you ran; do not edit outside that boundary.",
-  "model": "gpt-5.6-luna",
+  "model": "gpt-6-luna",
   "reasoning_effort": "max",
   "fork_turns": "none"
 }
@@ -67,11 +67,10 @@ subagent's actual result and evidence to the parent.
 The following is the known capability snapshot for routing. It is guidance for a
 selection, not a contract that overrides live tool metadata:
 
-| Model           | Efforts known in the current snapshot            |
-| --------------- | ------------------------------------------------ |
-| `gpt-5.6-sol`   | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-luna`  | `low`, `medium`, `high`, `xhigh`, `max`          |
+| Model        | Efforts known in the current snapshot |
+| ------------ | ------------------------------------- |
+| `gpt-6-luna` | `xhigh`, `max`                        |
+| `gpt-6-sol`  | `high`, `xhigh`, `max`                |
 
 Inspect the current tool metadata when selecting and invoking a subagent. A changed
 live capability list wins over this snapshot. If the selected model, effort, explicit
@@ -87,7 +86,7 @@ the source of each value. Chosen values are not the same as runtime-confirmed va
 
 For substantial implementation, the parent first inspects the complete accumulated
 diff and reruns the requested checks. It then starts a fresh read-only reviewer in a
-new context. The reviewer can be `gpt-5.6-sol`, `gpt-5.6-terra`, or `gpt-5.6-luna`,
+new context. The reviewer can be `gpt-6-sol` or `gpt-6-luna`,
 with an effort supported by live metadata, and must receive the exact change set,
 interfaces, constraints, and verification evidence. Ask it to return:
 
